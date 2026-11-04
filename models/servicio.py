@@ -4,7 +4,6 @@ class servicio:
         self.set_tipoServicio(tipoServicio)
         self.set_valorServicio(valorServicio)
 
-
     # Setters
     def set_tipoServicio(self, tipoServicio):
         self._tipoServicio = tipoServicio
