@@ -1,20 +1,25 @@
+from models.paciente import paciente
+from models.servicio import servicio
+from models.personalSalud import personalSalud
+from models.administrativo import administrativo
+
 #Clase: Facturacion
 class facturacion:
-    def __init__(self, codigoFactura, codigoPaciente, codigoServicio, codigoPersonalSalud, codigoAdministrativo, fechaFactura, total):
+    def __init__(self, codigoFactura, paciente, servicio, personalSalud, administrativo, fechaFactura, total):
         self.set_codigoFactura(codigoFactura)
-        self.set_codigoPaciente(codigoPaciente)
-        self.set_codigoServicio(codigoServicio)
-        self.set_codigoPersonalSalud(codigoPersonalSalud)
-        self.set_codigoAdministrativo(codigoAdministrativo)
+        self.set_paciente(paciente)
+        self.set_servicio(servicio)
+        self.set_personalSalud(personalSalud)
+        self.set_administrativo(administrativo)
         self.set_fechaFactura(fechaFactura)
         self.set_total(total)
 
     def mostrar_informacion(self):
         print(f"Codigo de la factura: {self.get_codigoFactura()}")
-        print(f"Codigo del paciente: {self.get_codigoPaciente()}")
-        print(f"Codigo del servicio: {self.get_codigoServicio()}")
-        print(f"Codigo del personal de salud: {self.get_codigoPersonalSalud()}")
-        print(f"Codigo del administrativo: {self.get_codigoAdministrativo()}")
+        print(f"Paciente: {self.get_paciente()}")
+        print(f"Servicio: {self.get_servicio()}")
+        print(f"Personal de salud: {self.get_personalSalud()}")
+        print(f"Administrativo: {self.get_administrativo()}")
         print(f"Fecha de la factura: {self.get_fechaFactura()}")
         print(f"Total: {self.get_total()}")
 
@@ -25,29 +30,29 @@ class facturacion:
     def get_codigoFactura(self):
         return self._codigoFactura
 
-    def set_codigoPaciente(self, codigoPaciente):
-        self._codigoPaciente = codigoPaciente
+    def set_paciente(self, paciente):
+        self._paciente = paciente
 
-    def get_codigoPaciente(self):
-        return self._codigoPaciente
+    def get_paciente(self):
+        return self._paciente
 
-    def set_codigoServicio(self, codigoServicio):
-        self._codigoServicio = codigoServicio
+    def set_servicio(self, servicio):
+        self._servicio = servicio
 
-    def get_codigoServicio(self):
-        return self._codigoServicio
+    def get_servicio(self):
+        return self._servicio
 
-    def set_codigoPersonalSalud(self, codigoPersonalSalud):
-        self._codigoPersonalSalud = codigoPersonalSalud
+    def set_personalSalud(self, personalSalud):
+        self._personalSalud = personalSalud
 
-    def get_codigoPersonalSalud(self):
-        return self._codigoPersonalSalud
+    def get_personalSalud(self):
+        return self._personalSalud
 
-    def set_codigoAdministrativo(self, codigoAdministrativo):
-        self._codigoAdministrativo = codigoAdministrativo
+    def set_administrativo(self, administrativo):
+        self._administrativo = administrativo
 
-    def get_codigoAdministrativo(self):
-        return self._codigoAdministrativo
+    def get_administrativo(self):
+        return self._administrativo
 
     def set_fechaFactura(self, fechaFactura):
         self._fechaFactura = fechaFactura
