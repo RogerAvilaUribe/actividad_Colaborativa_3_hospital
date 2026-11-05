@@ -9,6 +9,9 @@ class facturacionController():
         factura = facturacion(codigoFactura, paciente, servicio, personalSalud, administrativo, fechaFactura, total)
         self.facturas.append(factura)
 
+    def get_facturas(self):
+        return self.facturas.copy()
+
     def eliminar_factura(self, codigoFactura):
         for factura in self.facturas:
             if factura.get_codigoFactura() == codigoFactura:

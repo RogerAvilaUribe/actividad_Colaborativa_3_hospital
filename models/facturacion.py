@@ -16,10 +16,10 @@ class facturacion:
 
     def mostrar_informacion(self):
         print(f"Codigo de la factura: {self.get_codigoFactura()}")
-        print(f"Paciente: {self.get_paciente()}")
-        print(f"Servicio: {self.get_servicio()}")
-        print(f"Personal de salud: {self.get_personalSalud()}")
-        print(f"Administrativo: {self.get_administrativo()}")
+        print(f"Paciente: {self.get_paciente().get_nombre()}")
+        print(f"Servicio: {self.get_servicio().get_tipoServicio()}")
+        print(f"Personal de salud: {self.get_personalSalud().get_nombre()}")
+        print(f"Administrativo: {self.get_administrativo().get_nombre()}")
         print(f"Fecha de la factura: {self.get_fechaFactura()}")
         print(f"Total: {self.get_total()}")
 
