@@ -11,7 +11,6 @@ class paciente (persona):
     def mostrar_informacion(self):
         print(f"---INFORMACION PACIENTE---")
         super().mostrar_informacion()
-        print(f"Codigo del paciente: {self.getCodigoPaciente()}")
         print(f"Fecha de nacimiento: {self.getFechaNacimiento()}")
         print(f"Contacto de emergencia: {self.getContactoEmergencia()}")
         print(f"Eps a la que pertenece: {self.getNombreEps()}")
@@ -38,3 +37,6 @@ class paciente (persona):
 
     def getNombreEps(self):
         return self._nombreEps
+    
+    
+    

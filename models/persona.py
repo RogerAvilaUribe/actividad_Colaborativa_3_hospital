@@ -1,4 +1,6 @@
-class persona:
+from abc import ABC, abstractmethod
+
+class persona(ABC):
     def __init__(self, nombre, identificacion, correo, telefono, direccion, nivelDeAcceso):
         self.set_nombre(nombre)
         self.set_identificacion(identificacion)
@@ -7,6 +9,7 @@ class persona:
         self.set_direccion(direccion)
         self.setNivelDeAcceso(nivelDeAcceso)
 
+    @abstractmethod
     def mostrar_informacion(self):
         print(f"Nombre de la persona: {self.get_nombre()}")
         print(f"Identificacion: {self.get_identificacion()}")
@@ -55,3 +58,4 @@ class persona:
 
     def getNivelDeAcceso(self):
         return self._nivelDeAcceso
+    

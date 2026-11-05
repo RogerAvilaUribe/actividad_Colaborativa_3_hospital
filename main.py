@@ -1,6 +1,7 @@
 from controllers.facturacion_controller import facturacionController
 from controllers.servicioController import servicioController
 from controllers.persona_Controller import personaController
+from models.excepciones import FechaNacimientoInvalida, CitasElMismoDia, ServicioObligatorioAlFacturar
 
 
 def mostrar_menu_principal():
@@ -47,17 +48,49 @@ def menu_pacientes(persona_controller):
         opcion = input(">>>Ingrese una opción del 1 a 2: ").strip()
 
         match opcion:
+            
             case "1":
                 # Registrar paciente
-                pass
+                print("\n--- Ingrese los datos del paciente ---")
+                try:
+                    nombre = input("Nombre: ")
+                    identificacion = input("Identificación: ")
+                    correo = input("Correo electrónico: ")
+                    telefono = input("Número de teléfono: ")
+                    direccion = input("Dirección de residencia: ")
+                    nivelDeAcceso = "Paciente"  # Nivel de acceso fijo para pacientes
+                    fechaNacimiento = input("Fecha de nacimiento (YYYY-MM-DD): ")
+                    if not fechaNacimiento.strip():
+                        raise FechaNacimientoInvalida(fechaNacimiento)
+                    contactoEmergencia = input("Contacto de emergencia: ")
+                    nombreEps = input("Nombre de la EPS: ")
+                
+                    persona_controller.agregar_paciente(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, fechaNacimiento, contactoEmergencia, nombreEps)
+                    print("Paciente registrado exitosamente.")
+                except FechaNacimientoInvalida as e:
+                    print(f"Error: {e}")                    
+                
+                                    
             case "2":
                 # Eliminar paciente
-                pass
+                print("\n--- Eliminar paciente ---")
+                pacientesDisponiles = [p for p in persona_controller.get_personas()if type(p).__name__]
+                identificacion = input("Ingrese la identificación del paciente a eliminar: ")
+                if not pacientesDisponiles:
+                    print("No hay pacientes registrados.")
+                else:
+                    print("\n--- Pacientes disponibles ---")
+                    for p, paciente in enumerate(pacientesDisponiles, start=1):
+                        print(f"{p}. {paciente.get_nombre()} - ID: {paciente.get_identificacion()}")    
+                    try:
+                        persona_controller.eliminar_paciente(identificacion)
+                        print("Paciente eliminado exitosamente.")
+                    except ValueError as e:
+                        print(f"Error:{e}") ("No se encontró un paciente con esa identificación.")
             case "0":
                 return
             case _:
                 print("Opción inválida. Intente de nuevo.")
-
 
 def menu_personal_salud(persona_controller):
     while True:
@@ -70,15 +103,43 @@ def menu_personal_salud(persona_controller):
         match opcion:
             case "1":
                 # Registrar personal de salud
-                pass
+                print("\n--- Ingrese los datos del personal de salud ---")
+                nombre = input("Nombre: ")
+                identificacion = input("Identificación: ")
+                correo = input("Correo electrónico: ")
+                telefono = input("Número de teléfono: ")
+                direccion = input("Dirección de residencia: ")
+                nivelDeAcceso = "Personal de Salud"  # Nivel de acceso fijo para personal de salud
+                registroProfesional = input("Registro profesional: ")
+                dependencia = input("Dependencia: ")
+                especialidad = input("Código de especialidad: ")
+                numeroDeHorasSemanales = input("Número de horas semanales: ")
+                turno = input("Turno de trabajo: ")
+                
+                persona_controller.agregar_personalSalud(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, registroProfesional, dependencia, especialidad, numeroDeHorasSemanales, turno)
+                print("Personal de salud registrado exitosamente.")
+                
             case "2":
                 # Eliminar personal de salud
-                pass
+                print("\n--- Eliminar personal de salud ---")
+                personalSaludDisponibles = [p for p in persona_controller.get_personas() if type(p).__name__ == "personalSalud"]
+                identificacion = input("Ingrese la identificación del personal de salud a eliminar: ")
+                if not personalSaludDisponibles:
+                    print("No hay personal de salud registrado.")
+                else:
+                    print("\n--- Personal de salud disponible ---")
+                    for p, personalSalud in enumerate(personalSaludDisponibles, start=1):
+                        print(f"{p}. {personalSalud.get_nombre()} - ID: {personalSalud.get_identificacion()}")
+                    try:
+                        persona_controller.eliminar_personalSalud(identificacion)
+                        print("Personal de salud eliminado exitosamente.")
+                    except ValueError as e:
+                        print(f"Error:{e}") ("No se encontró un personal de salud con esa identificación.")
+                
             case "0":
                 return
             case _:
                 print("Opción inválida. Intente de nuevo.")
-
 
 def menu_personal_administrativo(persona_controller):
     while True:
@@ -91,10 +152,37 @@ def menu_personal_administrativo(persona_controller):
         match opcion:
             case "1":
                 # Registrar personal administrativo
-                pass
+                print("\n--- Ingrese los datos del personal administrativo ---")
+                nombre = input("Nombre: ")
+                identificacion = input("Identificación: ")
+                correo = input("Correo electrónico: ")
+                telefono = input("Número de teléfono: ")
+                direccion = input("Dirección de residencia: ")
+                nivelDeAcceso = "Personal Administrativo"  # Nivel de acceso fijo para personal administrativo
+                dependencia = input("Dependencia: ")
+                cargo = input("Cargo: ")
+                turno = input("Turno de trabajo: ") 
+                
+                persona_controller.agregar_adminitrativo(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, dependencia, cargo, turno)
+                print("Personal administrativo registrado exitosamente.")
+                
             case "2":
                 # Eliminar personal administrativo
-                pass
+                print("\n--- Eliminar personal administrativo ---")
+                personalAdministrativoDisponibles = [p for p in persona_controller.get_personas() if type(p).__name__ == "administrativo"]
+                identificacion = input("Ingrese la identificación del personal administrativo a eliminar: ")
+                if not personalAdministrativoDisponibles:
+                    print("No hay personal administrativo registrado.")
+                else:
+                    print("\n--- Personal administrativo disponible ---")
+                    for p, personalAdministrativo in enumerate(personalAdministrativoDisponibles, start=1):
+                        print(f"{p}. {personalAdministrativo.get_nombre()} - ID: {personalAdministrativo.get_identificacion()}")
+                    try:
+                        persona_controller.eliminar_administrativo(identificacion)
+                        print("Personal administrativo eliminado exitosamente.")
+                    except ValueError as e:
+                        print(f"Error:{e}") ("No se encontró un personal administrativo con esa identificación.")
+                        
             case "0":
                 return
             case _:
@@ -262,3 +350,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
