@@ -33,8 +33,8 @@ Ingrese una opción del 0 al 4:
 
 - [] la clase persona y servicio son abstractas
 - [] incluir sobre escritura de la clase servicio
-- [] Documento con decisiones de diseño
-- [] README
+- [] Documento con decisiones de diseño (Richard)
+- [] README (Richard)
 - [] Diagrama UML de clases (Roger)
     -  actualizar diagram segun codigo
 - [] Excepciones (Laura)
