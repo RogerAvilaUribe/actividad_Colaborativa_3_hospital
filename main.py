@@ -1,5 +1,6 @@
 from controllers.facturacion_controller import facturacionController
 from controllers.servicioController import servicioController
+from controllers.persona_Controller import personaController
 
 
 def mostrar_menu_principal():
@@ -15,7 +16,7 @@ def mostrar_menu_principal():
     print("0. Salir")
 
 
-def menu_usuarios():
+def menu_usuarios(persona_controller):
     while True:
         print("\n--- GESTIÓN DE USUARIOS ---")
         print("1. Pacientes")
@@ -26,18 +27,18 @@ def menu_usuarios():
 
         match opcion:
             case "1":
-                menu_pacientes()
+                menu_pacientes(persona_controller)
             case "2":
-                menu_personal_salud()
+                menu_personal_salud(persona_controller)
             case "3":
-                menu_personal_administrativo()
+                menu_personal_administrativo(persona_controller)
             case "0":
                 return
             case _:
                 print("Opción inválida. Intente de nuevo.")
 
 
-def menu_pacientes():
+def menu_pacientes(persona_controller):
     while True:
         print("\n--- PACIENTES ---")
         print("1. Registrar paciente")
@@ -58,7 +59,7 @@ def menu_pacientes():
                 print("Opción inválida. Intente de nuevo.")
 
 
-def menu_personal_salud():
+def menu_personal_salud(persona_controller):
     while True:
         print("\n--- PERSONAL DE SALUD ---")
         print("1. Registrar personal salud")
@@ -79,7 +80,7 @@ def menu_personal_salud():
                 print("Opción inválida. Intente de nuevo.")
 
 
-def menu_personal_administrativo():
+def menu_personal_administrativo(persona_controller):
     while True:
         print("\n--- PERSONAL ADMINISTRATIVO ---")
         print("1. Registrar personal administrativo")
@@ -100,7 +101,7 @@ def menu_personal_administrativo():
                 print("Opción inválida. Intente de nuevo.")
 
 
-def menu_servicios():
+def menu_servicios(servicio_controller):
     while True:
         print("\n--- SERVICIOS ---")
         print("1. Registrar nuevo servicio")
@@ -121,7 +122,8 @@ def menu_servicios():
                 print("Opción inválida. Intente de nuevo.")
 
 
-def menu_facturacion():
+def menu_facturacion(facturacion_controller):
+    
     while True:
         print("\n--- FACTURACIÓN ---")
         print("1. Registrar factura")
@@ -132,7 +134,7 @@ def menu_facturacion():
 
         match opcion:
             case "1":
-                # registrar factura
+                # registrar factura           
                 pass
             case "2":
                 # eliminar factura
@@ -173,18 +175,19 @@ def menu_reportes():
 def main():
     facturacion_controller = facturacionController()
     servicio_controller = servicioController()
-
+    persona_controller = personaController()
+    
     while True:
         mostrar_menu_principal()
         opcion = input(">>>Ingrese una opción del 1 a 4: ").strip()
 
         match opcion:
             case "1":
-                menu_usuarios()
+                menu_usuarios(persona_controller)
             case "2":
-                menu_servicios()
+                menu_servicios(servicio_controller)
             case "3":
-                menu_facturacion()
+                menu_facturacion(facturacion_controller)
             case "4":
                 menu_reportes()
             case "0":
@@ -192,6 +195,7 @@ def main():
                 break
             case _:
                 print("Opción inválida. Intente de nuevo.")
+                
 
 if __name__ == "__main__":
     main()

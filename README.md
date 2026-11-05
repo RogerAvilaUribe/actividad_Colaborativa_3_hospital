@@ -74,7 +74,7 @@ Al iniciar, el sistema muestra un menú:
     3. Reporte de facturas
     0. Volver
 0. Salir 
-Ingrese una opción del 1 al 9: 
+Ingrese una opción del 0 al 4:
 
 ## Explicación breve de cómo se aplicaron la herencia, la sobre escritura y el polimorfismo
 
