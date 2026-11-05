@@ -40,6 +40,7 @@ def menu_usuarios(persona_controller):
 
 
 def menu_pacientes(persona_controller):
+    
     while True:
         print("\n--- PACIENTES ---")
         print("1. Registrar paciente")
@@ -93,6 +94,7 @@ def menu_pacientes(persona_controller):
                 print("Opción inválida. Intente de nuevo.")
 
 def menu_personal_salud(persona_controller):
+    
     while True:
         print("\n--- PERSONAL DE SALUD ---")
         print("1. Registrar personal salud")
@@ -142,6 +144,7 @@ def menu_personal_salud(persona_controller):
                 print("Opción inválida. Intente de nuevo.")
 
 def menu_personal_administrativo(persona_controller):
+        
     while True:
         print("\n--- PERSONAL ADMINISTRATIVO ---")
         print("1. Registrar personal administrativo")
@@ -299,7 +302,20 @@ def menu_facturacion(facturacion_controller):
                 print("Opción inválida. Intente de nuevo.")
 
 
-def menu_reportes():
+def menu_reportes(persona_controller):
+    
+    # precargamos datos de prueba para pacientes
+    persona_controller.agregar_paciente("Juan Torres", "123456789", "juan.torres@email.com", "3001234567", "Calle 123 #45-67", "paciente", "1990-05-15", "Juan Pérez - 3009876543", "EPS Sura")
+    persona_controller.agregar_paciente("Raúl Sanchez", "123456789", "raul.sanchez@email.com", "3001234432", "Calle 123 #45-67", "paciente", "2000-07-11", "Juan Pérez - 3009876543", "EPS Sanitas")
+    
+    # precargamos datos de prueba para personal de salud
+    persona_controller.agregar_personalSalud("Dr. Carlos Pérez", "987654321", "carlos.perez@email.com", "3009876543", "Calle 456 #78-90", "salud", "12345", "Hospital General", "Cardiología", "40", "Matutino")
+    persona_controller.agregar_personalSalud("Dra. Ana Gómez", "987654322", "ana.gomez@email.com", "3009876544", "Calle 789 #12-34", "salud", "12346", "Hospital General", "Pediatría", "40", "Vespertino")
+    
+    # precargamos datos de prueba para personal administrativo
+    persona_controller.agregar_adminitrativo("Laura Martínez", "456789123", "laura.martinez@email.com", "3009876545", "Calle 101 #23-45", "administrativo", "Recursos Humanos", "Gerente", "Matutino")
+    persona_controller.agregar_adminitrativo("Pedro Ramírez", "456789124", "pedro.ramirez@email.com", "3009876546", "Calle 102 #24-46", "administrativo","Contabilidad", "Auxiliar", "Vespertino")
+        
     while True:
         print("\n--- REPORTES ---")
         print("1. Reporte polimórfico de usuarios")
@@ -311,6 +327,7 @@ def menu_reportes():
         match opcion:
             case "1":
                 # Reporte polimórfico de usuarios
+                reporte_personas(persona_controller)
                 pass
             case "2":
                 # Reporte de servicios
@@ -340,14 +357,25 @@ def main():
             case "3":
                 menu_facturacion(facturacion_controller)
             case "4":
-                menu_reportes()
+                menu_reportes(persona_controller)
             case "0":
                 print("Saliendo del sistema...")
                 break
             case _:
                 print("Opción inválida. Intente de nuevo.")
-                
+    
+# Reportes generales            
+def reporte_personas(persona_controller):
+    personas = persona_controller.get_personas()
+    if not personas:
+        print("No hay usuarios registrados.")
+        return
 
+    print("\n--- REPORTE POLIMÓRFICO DE USUARIOS ---")
+    for p in personas:
+        p.mostrar_informacion()
+        print("----------------------------------------")
+        
 if __name__ == "__main__":
     main()
     
