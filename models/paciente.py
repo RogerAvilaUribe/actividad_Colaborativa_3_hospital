@@ -1,4 +1,5 @@
 from models.persona import persona
+from models.excepciones import FechaNacimientoInvalida
 
 class paciente (persona):
 
@@ -20,7 +21,9 @@ class paciente (persona):
 
     # SETTERS
     def setFechaNacimiento(self, fechaNacimiento):
-        self._fechaNacimiento = fechaNacimiento 
+        if fechaNacimiento.strip() == "":
+            raise FechaNacimientoInvalida(fechaNacimiento)
+        self._fechaNacimiento = fechaNacimiento
 
     def setContactoEmergencia(self, contactoEmergencia):
         self._contactoEmergencia = contactoEmergencia
