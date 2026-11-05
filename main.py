@@ -102,6 +102,8 @@ def menu_personal_administrativo(persona_controller):
 
 
 def menu_servicios(servicio_controller):
+    categorias = {"1": "Cita", "2": "Examen", "3": "Medicamento"}
+
     while True:
         print("\n--- SERVICIOS ---")
         print("1. Registrar nuevo servicio")
@@ -112,10 +114,71 @@ def menu_servicios(servicio_controller):
         match opcion:
             case "1":
                 # Registrar servicio
-                pass
+                print("\nCategoría del servicio:")
+                print("1. Cita")
+                print("2. Examen")
+                print("3. Medicamento")
+                categoria = input(">>>Ingrese una categoría del 1 a 3: ").strip()
+                if categoria not in categorias:
+                    print("Categoría inválida. Intente de nuevo.")
+                    continue
+
+                de_el = {"1": "de la cita", "2": "del examen", "3": "del medicamento"}[categoria]
+                un_una = {"1": "una cita", "2": "un examen", "3": "un medicamento"}[categoria]
+
+                tipo_servicio = input(f">>>Nombre {de_el}: ").strip()
+                if not tipo_servicio:
+                    print(f"El nombre {de_el} no puede estar vacío.")
+                    continue
+
+                if servicio_controller.buscar_servicio(tipo_servicio) is not None:
+                    print(f"Ya existe {un_una} con ese nombre.")
+                    continue
+
+                try:
+                    valor_servicio = float(input(">>>Valor del servicio (solo números, sin puntos ni comas): ").strip())
+                except ValueError:
+                    print("El valor debe ser un número válido.")
+                    continue
+
+                if valor_servicio < 0:
+                    print("El valor del servicio no puede ser negativo.")
+                    continue
+
+                match categoria:
+                    case "1":
+                        servicio_controller.agregar_servicioCita(tipo_servicio, valor_servicio)
+                    case "2":
+                        servicio_controller.agregar_servicioExamen(tipo_servicio, valor_servicio)
+                    case "3":
+                        servicio_controller.agregar_servicioMedicamento(tipo_servicio, valor_servicio)
             case "2":
                 # Eliminar servicios
-                pass
+                servicios = servicio_controller.servicios
+                if not servicios:
+                    print("No hay servicios registrados.")
+                    continue
+
+                print("\nServicios registrados:")
+                for i, s in enumerate(servicios, start=1):
+                    print(f"{i}. {s.get_tipoServicio()} - Valor: {s.get_valorServicio()}")
+                print("0. Cancelar")
+
+                try:
+                    numero = int(input(">>>Ingrese el número del servicio a eliminar: ").strip())
+                except ValueError:
+                    print("Debe ingresar un número válido.")
+                    continue
+
+                if numero == 0:
+                    continue
+                if numero < 1 or numero > len(servicios):
+                    print("Número fuera de rango. Intente de nuevo.")
+                    continue
+
+                # Los nombres son únicos (se valida al registrar), así que eliminar por nombre es seguro
+                servicio_seleccionado = servicios[numero - 1]
+                servicio_controller.eliminar_servicioCita(servicio_seleccionado.get_tipoServicio())
             case "0":
                 return
             case _:
