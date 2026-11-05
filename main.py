@@ -1,6 +1,7 @@
 from controllers.facturacion_controller import facturacionController
 from controllers.servicioController import servicioController
 from controllers.persona_Controller import personaController
+from models.excepciones import FechaNacimientoInvalida, CitasElMismoDia, ServicioObligatorioAlFacturar
 
 
 def mostrar_menu_principal():
@@ -51,18 +52,24 @@ def menu_pacientes(persona_controller):
             case "1":
                 # Registrar paciente
                 print("\n--- Ingrese los datos del paciente ---")
-                nombre = input("Nombre: ")
-                identificacion = input("Identificación: ")
-                correo = input("Correo electrónico: ")
-                telefono = input("Número de teléfono: ")
-                direccion = input("Dirección de residencia: ")
-                nivelDeAcceso = "Paciente"  # Nivel de acceso fijo para pacientes
-                fechaNacimiento = input("Fecha de nacimiento (YYYY-MM-DD): ")
-                contactoEmergencia = input("Contacto de emergencia: ")
-                nombreEps = input("Nombre de la EPS: ")
-                    
-                persona_controller.agregar_paciente(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, fechaNacimiento, contactoEmergencia, nombreEps)
-                print("Paciente registrado exitosamente.")
+                try:
+                    nombre = input("Nombre: ")
+                    identificacion = input("Identificación: ")
+                    correo = input("Correo electrónico: ")
+                    telefono = input("Número de teléfono: ")
+                    direccion = input("Dirección de residencia: ")
+                    nivelDeAcceso = "Paciente"  # Nivel de acceso fijo para pacientes
+                    fechaNacimiento = input("Fecha de nacimiento (YYYY-MM-DD): ")
+                    if not fechaNacimiento.strip():
+                        raise FechaNacimientoInvalida(fechaNacimiento)
+                    contactoEmergencia = input("Contacto de emergencia: ")
+                    nombreEps = input("Nombre de la EPS: ")
+                
+                    persona_controller.agregar_paciente(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, fechaNacimiento, contactoEmergencia, nombreEps)
+                    print("Paciente registrado exitosamente.")
+                except FechaNacimientoInvalida as e:
+                    print(f"Error: {e}")                    
+                
                                     
             case "2":
                 # Eliminar paciente
