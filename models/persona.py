@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from models.excepciones import IdentificacionNoPuedeEstarVacia
+
 class persona(ABC):
     def __init__(self, nombre, identificacion, correo, telefono, direccion, nivelDeAcceso):
         self.set_nombre(nombre)
@@ -23,6 +25,8 @@ class persona(ABC):
         self._nombre = nombre
 
     def set_identificacion(self, identificacion):
+        if identificacion.strip() == "":
+            raise IdentificacionNoPuedeEstarVacia(identificacion)
         self._identificacion = identificacion
         
     def set_correo(self, correo):

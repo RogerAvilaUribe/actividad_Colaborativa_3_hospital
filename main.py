@@ -1,7 +1,7 @@
 from controllers.facturacion_controller import facturacionController
 from controllers.servicioController import servicioController
 from controllers.persona_Controller import personaController
-from models.excepciones import FechaNacimientoInvalida, CitasElMismoDia, ServicioObligatorioAlFacturar
+from models.excepciones import FechaNacimientoInvalida, IdentificacionNoPuedeEstarVacia, ServicioObligatorioAlFacturar
 
 
 def mostrar_menu_principal():
@@ -56,6 +56,8 @@ def menu_pacientes(persona_controller):
                 try:
                     nombre = input("Nombre: ")
                     identificacion = input("Identificación: ")
+                     # if not identificacion.strip():
+                        #     raise identificacionNoPuedeEstarVacia(identificacion)
                     correo = input("Correo electrónico: ")
                     telefono = input("Número de teléfono: ")
                     direccion = input("Dirección de residencia: ")
@@ -69,7 +71,9 @@ def menu_pacientes(persona_controller):
                     persona_controller.agregar_paciente(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, fechaNacimiento, contactoEmergencia, nombreEps)
                     print("Paciente registrado exitosamente.")
                 except FechaNacimientoInvalida as e:
-                    print(f"Error: {e}")                    
+                    print(f"Error: {e}")  
+                except IdentificacionNoPuedeEstarVacia as e:
+                    print(f"Error: {e}")                  
                 
                                     
             case "2":
@@ -111,20 +115,26 @@ def menu_personal_salud(persona_controller):
             case "1":
                 # Registrar personal de salud
                 print("\n--- Ingrese los datos del personal de salud ---")
-                nombre = input("Nombre: ")
-                identificacion = input("Identificación: ")
-                correo = input("Correo electrónico: ")
-                telefono = input("Número de teléfono: ")
-                direccion = input("Dirección de residencia: ")
-                nivelDeAcceso = "salud"  # Nivel de acceso fijo para personal de salud
-                registroProfesional = input("Registro profesional: ")
-                dependencia = input("Dependencia: ")
-                especialidad = input("Especialidad: ")
-                numeroDeHorasSemanales = input("Número de horas semanales: ")
-                turno = input("Turno de trabajo: ")
+                try: 
+                    nombre = input("Nombre: ")
+                    identificacion = input("Identificación: ")
+                    # if not identificacion.strip():
+                    #     raise IdentificacionNoPuedeEstarVacia(identificacion)
+                    correo = input("Correo electrónico: ")
+                    telefono = input("Número de teléfono: ")
+                    direccion = input("Dirección de residencia: ")
+                    nivelDeAcceso = "salud"  # Nivel de acceso fijo para personal de salud
+                    registroProfesional = input("Registro profesional: ")
+                    dependencia = input("Dependencia: ")
+                    especialidad = input("Especialidad: ")
+                    numeroDeHorasSemanales = input("Número de horas semanales: ")
+                    turno = input("Turno de trabajo: ")
                 
-                persona_controller.agregar_personalSalud(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, registroProfesional, dependencia, especialidad, numeroDeHorasSemanales, turno)
-                print("Personal de salud registrado exitosamente.")
+                    persona_controller.agregar_personalSalud(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, registroProfesional, dependencia, especialidad, numeroDeHorasSemanales, turno)
+                    print("Personal de salud registrado exitosamente.")
+                except IdentificacionNoPuedeEstarVacia as e:
+                    print(f"Error: {e}")
+                
                 
             case "2":
                 # Eliminar personal de salud
@@ -165,18 +175,23 @@ def menu_personal_administrativo(persona_controller):
             case "1":
                 # Registrar personal administrativo
                 print("\n--- Ingrese los datos del personal administrativo ---")
-                nombre = input("Nombre: ")
-                identificacion = input("Identificación: ")
-                correo = input("Correo electrónico: ")
-                telefono = input("Número de teléfono: ")
-                direccion = input("Dirección de residencia: ")
-                nivelDeAcceso = "admin"  # Nivel de acceso fijo para personal administrativo
-                dependencia = input("Dependencia: ")
-                cargo = input("Cargo: ")
-                turno = input("Turno de trabajo: ") 
+                try:
+                    nombre = input("Nombre: ")
+                    identificacion = input("Identificación: ")
+                    # if not identificacion.strip():
+                    #     raise IdentificacionNoPuedeEstarVacia(identificacion)
+                    correo = input("Correo electrónico: ")
+                    telefono = input("Número de teléfono: ")
+                    direccion = input("Dirección de residencia: ")
+                    nivelDeAcceso = "admin"  # Nivel de acceso fijo para personal administrativo
+                    dependencia = input("Dependencia: ")
+                    cargo = input("Cargo: ")
+                    turno = input("Turno de trabajo: ") 
                 
-                persona_controller.agregar_adminitrativo(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, dependencia, cargo, turno)
-                print("Personal administrativo registrado exitosamente.")
+                    persona_controller.agregar_adminitrativo(nombre, identificacion, correo, telefono, direccion, nivelDeAcceso, dependencia, cargo, turno)
+                    print("Personal administrativo registrado exitosamente.")
+                except IdentificacionNoPuedeEstarVacia as e:
+                    print(f"Error: {e}")
                 
             case "2":
                 # Eliminar personal administrativo

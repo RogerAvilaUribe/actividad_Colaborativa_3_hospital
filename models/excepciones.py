@@ -8,13 +8,13 @@ class FechaNacimientoInvalida(Exception):
         )
         
         
-class CitasElMismoDia(Exception):
-    """ No se puede agendar una cita para el mismo paciente en la misma fecha. """
+class IdentificacionNoPuedeEstarVacia(Exception):
+    """ La identificación del usuario no puede estar vacía. """
     
-    def __init__(self, fechaCita):
-        self.fechaCita = fechaCita
+    def __init__(self, identificacion):
+        self.identificacion = identificacion
         super().__init__(
-            f"Ya existe una cita agendada para la fecha '{self.fechaCita}'. No se puede agendar otra cita para el mismo paciente en la misma fecha."
+            f"La identificación '{self.identificacion}' es inválida. No puede estar vacía."
         )
 
 
