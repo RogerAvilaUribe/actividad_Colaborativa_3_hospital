@@ -9,9 +9,8 @@ class servicio(ABC):
     @abstractmethod
       # otro metodos
     def mostrar_informacion(self):
-        print(f"Tipo de servicio: {self.get_tipoServicio()}")
-        print(f"Valor del servicio: {self.get_valorServicio()}")
-  
+        print(f"Tipo de servicio: {self.get_tipoServicio()} - Valor del servicio: {self.get_valorServicio()}")
+          
     # Setters
     def set_tipoServicio(self, tipoServicio):
         self._tipoServicio = tipoServicio

@@ -216,31 +216,34 @@ def menu_servicios(servicio_controller):
                     continue
 
                 # Datos comunes
-                tipo_servicio = input("Nombre del servicio: ").strip()
-                if servicio_controller.buscar_servicio(tipo_servicio) is not None:
-                    print("Ya existe un servicio con ese nombre.")
-                    continue
-                try:
-                    valor_servicio = int(input("Valor del servicio (sin puntos ni comas): "))
-                except ValueError:
-                    print("El valor debe ser un número entero.")
-                    continue
 
                 # Datos propios de cada categoría
                 match categoria:
                     case "1":
+                        if servicio_controller.buscar_servicio("Cita") is not None:
+                            print("Ya existe un servicio de tipo Cita.")
+                            break
+                        valor_servicio = int(input("Valor del servicio (sin puntos ni comas): "))
                         especialidad = input("Especialidad de la cita: ")
-                        fecha = input("Fecha y hora de la cita (YYYY-MM-DD HH:MM): ")
-                        servicio_controller.agregar_servicioCita(tipo_servicio, valor_servicio, especialidad, fecha)
+                        #fecha = input("Fecha y hora de la cita (YYYY-MM-DD HH:MM): ")
+                        servicio_controller.agregar_servicioCita("Cita", valor_servicio, especialidad)
                     case "2":
+                        if servicio_controller.buscar_servicio("Examen") is not None:
+                            print("Ya existe un servicio de tipo Examen.")
+                            break
+                        valor_servicio = int(input("Valor del servicio (sin puntos ni comas): "))
                         nombre_examen = input("Nombre del examen: ")
-                        fecha = input("Fecha y hora del examen (YYYY-MM-DD HH:MM): ")
-                        servicio_controller.agregar_servicioExamen(tipo_servicio, valor_servicio, nombre_examen, fecha)
+                        #fecha = input("Fecha y hora del examen (YYYY-MM-DD HH:MM): ")
+                        servicio_controller.agregar_servicioExamen("Examen", valor_servicio, nombre_examen)
                     case "3":
+                        if servicio_controller.buscar_servicio("Medicamento") is not None:
+                            print("Ya existe un servicio de tipo Medicamento.")
+                            break
+                        valor_servicio = int(input("Valor del servicio (sin puntos ni comas): "))
                         nombre_medicamento = input("Nombre del medicamento: ")
                         dosis = input("Dosis: ")
                         presentacion = input("Presentación: ")
-                        servicio_controller.agregar_servicioMedicamento(tipo_servicio, valor_servicio, nombre_medicamento, dosis, presentacion)
+                        servicio_controller.agregar_servicioMedicamento("Medicamento", valor_servicio, nombre_medicamento, dosis, presentacion)
             case "2":
                 # Eliminar servicio
                 servicios = servicio_controller.get_servicios()
@@ -249,21 +252,23 @@ def menu_servicios(servicio_controller):
                     continue
 
                 print("\n--- Servicios registrados ---")
-                for i, s in enumerate(servicios, start=1):
-                    print(f"\nServicio #{i}")
+                for i, s in enumerate(servicios):
+                    print(f"[{i}] ", end="")
                     s.mostrar_informacion()
 
                 try:
                     numero = int(input("\nIngrese el número del servicio a eliminar: "))
+                    servicioSeleccionado = servicios[numero] 
                 except ValueError:
                     print("Número inválido.")
                     continue
 
-                if numero < 1 or numero > len(servicios):
-                    print("Número inválido.")
-                    continue
-
-                servicio_controller.eliminar_servicio(servicios[numero - 1].get_tipoServicio())
+                try:
+                    servicio_controller.eliminar_servicio(servicios[numero].get_tipoServicio())
+                    print("Servicio eliminado exitosamente")
+                except ValueError:
+                    print("No se encontró el servicio")
+                
             case "0":
                 return
             case _:
@@ -338,9 +343,9 @@ def cargar_datos_prueba(persona_controller, servicio_controller, facturacion_con
     admin_pedro = persona_controller.agregar_adminitrativo("Pedro Ramírez", "456789124", "pedro.ramirez@email.com", "3009876546", "Calle 102 #24-46", "administrativo", "Contabilidad", "Auxiliar", "Vespertino")
 
     # precargamos datos de prueba para servicios
-    cita_cardio = servicio_controller.agregar_servicioCita("Consulta de cardiología", 120000, "Cardiología", "2026-11-10")
-    cita_pediatria = servicio_controller.agregar_servicioCita("Consulta de pediatría", 90000, "Pediatría", "2026-11-11")
-    examen_hemograma = servicio_controller.agregar_servicioExamen("Hemograma completo", 45000, "Hemograma", "2026-11-08")
+    cita_cardio = servicio_controller.agregar_servicioCita("Consulta de cardiología", 120000, "Cardiología")
+    cita_pediatria = servicio_controller.agregar_servicioCita("Consulta de pediatría", 90000, "Pediatría")
+    examen_hemograma = servicio_controller.agregar_servicioExamen("Hemograma completo", 45000, "Hemograma")
     medicamento_ibuprofeno = servicio_controller.agregar_servicioMedicamento("Ibuprofeno 400mg", 8000, "Ibuprofeno", 400, "Tableta")
 
     # precargamos datos de prueba para facturas

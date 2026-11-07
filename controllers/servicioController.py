@@ -6,14 +6,14 @@ class servicioController:
     def __init__(self):
         self.servicios = []
 
-    def agregar_servicioCita(self, tipoServicio, valorServicio, especialidadCita, fechaCita):
-        nuevo_servicio = cita(tipoServicio, valorServicio, especialidadCita, fechaCita)
+    def agregar_servicioCita(self, tipoServicio, valorServicio, especialidadCita):
+        nuevo_servicio = cita(tipoServicio, valorServicio, especialidadCita)
         self.servicios.append(nuevo_servicio)
         print("Servicio agregado exitosamente.")
         return nuevo_servicio
 
-    def agregar_servicioExamen(self, tipoServicio, valorServicio, nombreExamen, fechaExamen):
-        nuevo_servicio = examen(tipoServicio, valorServicio, nombreExamen, fechaExamen)
+    def agregar_servicioExamen(self, tipoServicio, valorServicio, nombreExamen):
+        nuevo_servicio = examen(tipoServicio, valorServicio, nombreExamen)
         self.servicios.append(nuevo_servicio)
         print("Servicio agregado exitosamente.")
         return nuevo_servicio
@@ -27,11 +27,13 @@ class servicioController:
     def get_servicios(self):
         return self.servicios.copy()
 
+    def get_especialidadCita(self):
+        return cita.get_especialidadCita()
+
     def eliminar_servicio(self, tipoServicio):
         servicio_encontrado = self.buscar_servicio(tipoServicio)
         if servicio_encontrado:
             self.servicios.remove(servicio_encontrado)
-            print("Servicio eliminado exitosamente.")
         else:
             print("Servicio no encontrado.")
 
@@ -50,3 +52,5 @@ class servicioController:
         for servicio in self.servicios:
             servicio.mostrar_informacion()
             print("--------------------")
+
+    
