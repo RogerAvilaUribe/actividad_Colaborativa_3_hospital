@@ -2,6 +2,7 @@ from models.paciente import paciente
 from models.servicio import servicio
 from models.personalSalud import personalSalud
 from models.administrativo import administrativo
+from models.excepciones import ServicioObligatorioAlFacturar
 
 #Clase: Facturacion
 class facturacion:
@@ -37,6 +38,8 @@ class facturacion:
         return self._paciente
 
     def set_servicio(self, servicio):
+        if servicio is None:
+            raise ServicioObligatorioAlFacturar("El servicio no puede estar vacío al facturar.")
         self._servicio = servicio
 
     def get_servicio(self):
