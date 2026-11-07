@@ -1,7 +1,7 @@
 from controllers.facturacion_controller import facturacionController
 from controllers.servicioController import servicioController
 from controllers.persona_Controller import personaController
-from models.excepciones import FechaNacimientoInvalida, IdentificacionNoPuedeEstarVacia, ServicioObligatorioAlFacturar
+from models.excepciones import CodigoFacturaInvalido, FechaNacimientoInvalida, IdentificacionNoPuedeEstarVacia, ServicioObligatorioAlFacturar
 
 
 def mostrar_menu_principal():
@@ -391,7 +391,7 @@ def menu_facturacion(facturacion_controller, persona_controller, servicio_contro
                 try:
                     facturacion_controller.agregar_factura(codigo, paciente_elegido, servicio_elegido, salud_elegido, admin_elegido, fecha, total)
                     print("Factura registrada exitosamente.")
-                except ServicioObligatorioAlFacturar as e:
+                except (ServicioObligatorioAlFacturar, CodigoFacturaInvalido) as e:
                     print(f"Error: {e}")
             case "2":
                 # Eliminar factura

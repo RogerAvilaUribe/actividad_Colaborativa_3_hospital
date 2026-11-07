@@ -2,7 +2,7 @@ from models.paciente import paciente
 from models.servicio import servicio
 from models.personalSalud import personalSalud
 from models.administrativo import administrativo
-from models.excepciones import ServicioObligatorioAlFacturar
+from models.excepciones import ServicioObligatorioAlFacturar, CodigoFacturaInvalido
 
 #Clase: Facturacion
 class facturacion:
@@ -26,6 +26,8 @@ class facturacion:
 
     # Getters and Setters
     def set_codigoFactura(self, codigoFactura):
+        if codigoFactura.strip() == "":
+            raise CodigoFacturaInvalido(codigoFactura)
         self._codigoFactura = codigoFactura
 
     def get_codigoFactura(self):
