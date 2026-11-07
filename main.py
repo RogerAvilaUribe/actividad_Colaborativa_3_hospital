@@ -275,9 +275,18 @@ def menu_servicios(servicio_controller):
                 print("Opción inválida. Intente de nuevo.")
         input("\nPresione una tecla para continuar...")
 
+def elegir_de_lista(elementos, mensaje):
+    """Pide un número y devuelve el elemento de la lista, o None si el número es inválido."""
+    try:
+        numero = int(input(mensaje))
+    except ValueError:
+        return None
+    if numero < 1 or numero > len(elementos):
+        return None
+    return elementos[numero - 1]
 
-def menu_facturacion(facturacion_controller):
-    
+
+def menu_facturacion(facturacion_controller, persona_controller, servicio_controller):
     while True:
         print("\n--- FACTURACIÓN ---")
         print("1. Registrar factura")
@@ -288,14 +297,107 @@ def menu_facturacion(facturacion_controller):
 
         match opcion:
             case "1":
-                # registrar factura           
-                pass
+                # Registrar factura
+                codigo = input("Código de la factura: ").strip()
+                if not codigo:
+                    print("El código de la factura no puede estar vacío.")
+                    continue
+                if facturacion_controller.buscar_factura(codigo) is not None:
+                    print("Ya existe una factura con ese código.")
+                    continue
+
+                # Paciente
+                pacientes = [p for p in persona_controller.get_personas() if type(p).__name__ == "paciente"]
+                if not pacientes:
+                    print("No hay pacientes registrados.")
+                    continue
+                print("\n--- Pacientes disponibles ---")
+                for i, p in enumerate(pacientes, start=1):
+                    print(f"{i}. {p.get_nombre()} - ID: {p.get_identificacion()}")
+                paciente_elegido = elegir_de_lista(pacientes, "Seleccione el número del paciente: ")
+                if paciente_elegido is None:
+                    print("Selección inválida.")
+                    continue
+
+                # Servicio
+                servicios = servicio_controller.get_servicios()
+                if not servicios:
+                    print("No hay servicios registrados. No se puede facturar sin un servicio.")
+                    continue
+                print("\n--- Servicios disponibles ---")
+                for i, s in enumerate(servicios, start=1):
+                    print(f"{i}. {s.get_tipoServicio()} - Valor: {s.get_valorServicio()}")
+                servicio_elegido = elegir_de_lista(servicios, "Seleccione el número del servicio: ")
+                if servicio_elegido is None:
+                    print("Selección inválida.")
+                    continue
+
+                # Personal de salud
+                personal_salud = [p for p in persona_controller.get_personas() if type(p).__name__ == "personalSalud"]
+                if not personal_salud:
+                    print("No hay personal de salud registrado.")
+                    continue
+                print("\n--- Personal de salud disponible ---")
+                for i, p in enumerate(personal_salud, start=1):
+                    print(f"{i}. {p.get_nombre()} - ID: {p.get_identificacion()}")
+                salud_elegido = elegir_de_lista(personal_salud, "Seleccione el número del personal de salud: ")
+                if salud_elegido is None:
+                    print("Selección inválida.")
+                    continue
+
+                # Personal administrativo
+                personal_admin = [p for p in persona_controller.get_personas() if type(p).__name__ == "administrativo"]
+                if not personal_admin:
+                    print("No hay personal administrativo registrado.")
+                    continue
+                print("\n--- Personal administrativo disponible ---")
+                for i, p in enumerate(personal_admin, start=1):
+                    print(f"{i}. {p.get_nombre()} - ID: {p.get_identificacion()}")
+                admin_elegido = elegir_de_lista(personal_admin, "Seleccione el número del personal administrativo: ")
+                if admin_elegido is None:
+                    print("Selección inválida.")
+                    continue
+
+                # Datos de la factura
+                fecha = input("Fecha de la factura (YYYY-MM-DD): ").strip()
+                total = servicio_elegido.get_valorServicio()  # el total es el valor del servicio
+                print(f"Total a facturar: {total}")
+
+                try:
+                    facturacion_controller.agregar_factura(codigo, paciente_elegido, servicio_elegido, salud_elegido, admin_elegido, fecha, total)
+                    print("Factura registrada exitosamente.")
+                except ServicioObligatorioAlFacturar as e:
+                    print(f"Error: {e}")
             case "2":
-                # eliminar factura
-                pass
+                # Eliminar factura
+                facturas = facturacion_controller.get_facturas()
+                if not facturas:
+                    print("No hay facturas registradas.")
+                    continue
+
+                print("\n--- Facturas registradas ---")
+                for i, f in enumerate(facturas, start=1):
+                    print(f"\nFactura #{i}")
+                    f.mostrar_informacion()
+
+                factura_elegida = elegir_de_lista(facturas, "\nIngrese el número de la factura a eliminar: ")
+                if factura_elegida is None:
+                    print("Número inválido.")
+                    continue
+
+                if facturacion_controller.eliminar_factura(factura_elegida.get_codigoFactura()):
+                    print("Factura eliminada exitosamente.")
+                else:
+                    print("No se encontró la factura.")
             case "3":
-                # buscar factura
-                pass
+                # Buscar factura
+                codigo = input("Ingrese el código de la factura a buscar: ").strip()
+                factura = facturacion_controller.buscar_factura(codigo)
+                if factura is None:
+                    print("No se encontró una factura con ese código.")
+                else:
+                    print("\n--- Factura encontrada ---")
+                    factura.mostrar_informacion()
             case "0":
                 return
             case _:
@@ -371,7 +473,7 @@ def main():
             case "2":
                 menu_servicios(servicio_controller)
             case "3":
-                menu_facturacion(facturacion_controller)
+                menu_facturacion(facturacion_controller, persona_controller, servicio_controller)
             case "4":
                 menu_reportes(persona_controller, servicio_controller, facturacion_controller)
             case "0":
