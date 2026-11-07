@@ -134,11 +134,11 @@ def menu_personal_salud(persona_controller):
                     print("No hay personal de salud registrado.")
                 else:
                     print("\n--- Personal de salud disponible ---")
-                    for p, personalSalud in enumerate(personalSaludDisponibles, start=1):
+                    for p, personalSalud in enumerate(personalSaludDisponibles):
                         print(f"{p}. {personalSalud.get_nombre()} - ID: {personalSalud.get_identificacion()}")
                     try:
                         opcion = int(input("\nSeleccione el número del personal de salud a eliminar: "))
-                        personalSaludSeleccionado = personalSaludDisponibles[opcion - 1]
+                        personalSaludSeleccionado = personalSaludDisponibles[opcion]
                     except (ValueError, IndexError) as e:
                         print(f"Error:{e}") ("Seleccion de personal de salud inválida.")
                     try:
@@ -186,11 +186,11 @@ def menu_personal_administrativo(persona_controller):
                     print("No hay personal administrativo registrado.")
                 else:
                     print("\n--- Personal administrativo disponible ---")
-                    for p, personalAdministrativo in enumerate(personalAdministrativoDisponibles, start=1):
+                    for p, personalAdministrativo in enumerate(personalAdministrativoDisponibles):
                         print(f"{p}. {personalAdministrativo.get_nombre()} - ID: {personalAdministrativo.get_identificacion()}")
                     try:
                         opcion = int(input("\nSeleccione el número del personal administrativo a eliminar: "))
-                        personalAdministrativoSeleccionado = personalAdministrativoDisponibles[opcion - 1]
+                        personalAdministrativoSeleccionado = personalAdministrativoDisponibles[opcion]
                     except (ValueError, IndexError) as e:
                         print(f"Error:{e}") ("Seleccion de personal administrativo inválida.")
                     try:
