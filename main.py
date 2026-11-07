@@ -75,16 +75,20 @@ def menu_pacientes(persona_controller):
             case "2":
                 # Eliminar paciente
                 print("\n--- Eliminar paciente ---")
-                pacientesDisponiles = [p for p in persona_controller.get_personas()if type(p).__name__ == "paciente"]
-                identificacion = input("Ingrese la identificación del paciente a eliminar: ")
-                if not pacientesDisponiles:
+                pacientesDisponibles = [p for p in persona_controller.get_personas()if type(p).__name__ == "paciente"]
+                if not pacientesDisponibles:
                     print("No hay pacientes registrados.")
                 else:
                     print("\n--- Pacientes disponibles ---")
-                    for p, paciente in enumerate(pacientesDisponiles, start=1):
+                    for p, paciente in enumerate(pacientesDisponibles):
                         print(f"{p}. {paciente.get_nombre()} - ID: {paciente.get_identificacion()}")    
                     try:
-                        persona_controller.eliminar_paciente(identificacion)
+                        opcion = int(input("\nSeleccione el número del paciente a eliminar: "))
+                        pacienteSeleccionado = pacientesDisponibles[opcion]
+                    except ValueError as e:
+                        print(f"Error:{e}") ("Seleccion de paciente inválida.")
+                    try:
+                        persona_controller.eliminar_paciente(pacienteSeleccionado.get_identificacion())
                         print("Paciente eliminado exitosamente.")
                     except ValueError as e:
                         print(f"Error:{e}") ("No se encontró un paciente con esa identificación.")
@@ -126,19 +130,22 @@ def menu_personal_salud(persona_controller):
                 # Eliminar personal de salud
                 print("\n--- Eliminar personal de salud ---")
                 personalSaludDisponibles = [p for p in persona_controller.get_personas() if type(p).__name__ == "personalSalud"]
-                identificacion = input("Ingrese la identificación del personal de salud a eliminar: ")
                 if not personalSaludDisponibles:
                     print("No hay personal de salud registrado.")
                 else:
                     print("\n--- Personal de salud disponible ---")
-                    for p, personalSalud in enumerate(personalSaludDisponibles, start=1):
+                    for p, personalSalud in enumerate(personalSaludDisponibles):
                         print(f"{p}. {personalSalud.get_nombre()} - ID: {personalSalud.get_identificacion()}")
                     try:
-                        persona_controller.eliminar_personalSalud(identificacion)
+                        opcion = int(input("\nSeleccione el número del personal de salud a eliminar: "))
+                        personalSaludSeleccionado = personalSaludDisponibles[opcion]
+                    except (ValueError, IndexError) as e:
+                        print(f"Error:{e}") ("Seleccion de personal de salud inválida.")
+                    try:
+                        persona_controller.eliminar_personalSalud(personalSaludSeleccionado.get_identificacion())
                         print("Personal de salud eliminado exitosamente.")
                     except ValueError as e:
-                        print(f"Error:{e}") ("No se encontró un personal de salud con esa identificación.")
-                
+                        print(f"Error:{e}") ("No se encontró un personal de salud con esa identificación.")        
             case "0":
                 return
             case _:
@@ -175,19 +182,22 @@ def menu_personal_administrativo(persona_controller):
                 # Eliminar personal administrativo
                 print("\n--- Eliminar personal administrativo ---")
                 personalAdministrativoDisponibles = [p for p in persona_controller.get_personas() if type(p).__name__ == "administrativo"]
-                identificacion = input("Ingrese la identificación del personal administrativo a eliminar: ")
                 if not personalAdministrativoDisponibles:
                     print("No hay personal administrativo registrado.")
                 else:
                     print("\n--- Personal administrativo disponible ---")
-                    for p, personalAdministrativo in enumerate(personalAdministrativoDisponibles, start=1):
+                    for p, personalAdministrativo in enumerate(personalAdministrativoDisponibles):
                         print(f"{p}. {personalAdministrativo.get_nombre()} - ID: {personalAdministrativo.get_identificacion()}")
                     try:
-                        persona_controller.eliminar_administrativo(identificacion)
+                        opcion = int(input("\nSeleccione el número del personal administrativo a eliminar: "))
+                        personalAdministrativoSeleccionado = personalAdministrativoDisponibles[opcion]
+                    except (ValueError, IndexError) as e:
+                        print(f"Error:{e}") ("Seleccion de personal administrativo inválida.")
+                    try:
+                        persona_controller.eliminar_administrativo(personalAdministrativoSeleccionado.get_identificacion())
                         print("Personal administrativo eliminado exitosamente.")
                     except ValueError as e:
                         print(f"Error:{e}") ("No se encontró un personal administrativo con esa identificación.")
-                        
             case "0":
                 return
             case _:
