@@ -26,4 +26,13 @@ class ServicioObligatorioAlFacturar(Exception):
         super().__init__(
             f"El servicio '{self.servicio}' no ha sido prestado. No se puede facturar un servicio que no ha sido prestado."
         )
+
+class CodigoFacturaInvalido(Exception):
+    """ El código de la factura no puede estar vacío. """
+    
+    def __init__(self, codigoFactura):
+        self.codigoFactura = codigoFactura
+        super().__init__(
+            f"El código de la factura '{self.codigoFactura}' es inválido. No puede estar vacío."
+        )
         
